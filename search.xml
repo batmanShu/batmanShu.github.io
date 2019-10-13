@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>my new post</title>
+    <url>/2019/10/13/my-new-post/</url>
+    <content><![CDATA[<p><strong><em>test</em></strong></p>
+]]></content>
+  </entry>
+  <entry>
     <title>test</title>
     <url>/2019/10/13/test/</url>
     <content><![CDATA[<p><strong><em>第一篇文章</em></strong><br><strong><em>支持markdown</em></strong></p>
