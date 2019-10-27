@@ -344,9 +344,9 @@
         <p>在进行极线搜索时，为了方便，将极点通过射影变换转至无穷远点，则图上的极线都变成了平行线，便于搜索<br><em>PAT：</em> <strong>只能在极点位于图像外时使用这种方法，极点在图像内时，极点周围的点也会被变换到无穷远处</strong></p>
 <h2 id="变换矩阵H的形式"><a href="#变换矩阵H的形式" class="headerlink" title="变换矩阵H的形式"></a>变换矩阵H的形式</h2><script type="math/tex; mode=display">He=[1,0,0]^T</script><p>$H$最少有6个自由度,为了减少畸变，应该使$H$接近刚体变换,$H=GG_RG_T\in R^{3\times3}$</p>
 <script type="math/tex; mode=display">
-G_T=\begin{bmatrix}1&0&-O_x\\0&1&-O_y\\0&0&1\\\end{bmatrix}</script><p>其中$O_x,O_y$是图像中心,$G_T\begin{bmatrix}O_x\O_y\1\end{bmatrix}=\begin{bmatrix}0\0\1\end{bmatrix}$  </p>
+G_T=\begin{bmatrix}1&0&-O_x\\0&1&-O_y\\0&0&1\\\end{bmatrix}</script><p>其中$O_x,O_y$是图像中心,$G_T\begin{bmatrix}O_x\\O_y\\1\end{bmatrix}=\begin{bmatrix}0\\0\\1\end{bmatrix}$  </p>
 <p>$G_T$将极点变换到图像坐标系下，再通过刚体变换$G_R\in SO(3)$将极点变换到x轴上,$G_R$是以z轴为旋转轴的旋转矩阵</p>
-<script type="math/tex; mode=display">G_RG_Te=[x_e,0,1]^T</script><p>要使$G[x_e,0,1]=[1,0,0]^T$,则$G=\begin{bmatrix}1&amp;0&amp;0\0&amp;1&amp;0\-\frac{1}{x_e}&amp;0&amp;1\end{bmatrix}$</p>
+<script type="math/tex; mode=display">G_RG_Te=[x_e,0,1]^T</script><p>要使$G[x_e,0,1]=[1,0,0]^T$,则$G=\begin{bmatrix}1&amp;0&amp;0\\0&amp;1&amp;0\-\frac{1}{x_e}&amp;0&amp;1\end{bmatrix}$</p>
 <h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><blockquote>
 <p>Hartley R, Zisserman A. Multiple view geometry in computer vision[M]. Cambridge university press, 2003.</p>
 </blockquote>
