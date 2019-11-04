@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="paper reading,">
 
 
 
@@ -79,13 +79,22 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="ATOSA">
-<meta property="og:url" content="http://yoursite.com/tags/Multiview-Geometry/index.html">
+<meta name="description" content="Visual SLAM：Why Bundle Adjust? Álvaro Parra, Tat-Jun Chin, Anders Eriksson, Ian Reid ICRA 2019  在BA的基础上做了些修改，简单的说，BA把R，t，X放到一起优化，而这篇文章提出的新BA把R和t，X分开优化，先优化R，再在优化得到的R的基础上再优化R，t 传统BA流程图  重投影误差公式： $$\min">
+<meta name="keywords" content="paper reading">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文阅读笔记 why BA？">
+<meta property="og:url" content="http://yoursite.com/2019/11/04/论文阅读笔记whyBA/index.html">
 <meta property="og:site_name" content="ATOSA">
+<meta property="og:description" content="Visual SLAM：Why Bundle Adjust? Álvaro Parra, Tat-Jun Chin, Anders Eriksson, Ian Reid ICRA 2019  在BA的基础上做了些修改，简单的说，BA把R，t，X放到一起优化，而这篇文章提出的新BA把R和t，X分开优化，先优化R，再在优化得到的R的基础上再优化R，t 传统BA流程图  重投影误差公式： $$\min">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007y4ewTly1g8m24uam3uj30ed095gmu.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007y4ewTly1g8m34ghulhj30ec096wfy.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007y4ewTly1g8m4v56p0gj30f80nf416.jpg">
+<meta property="og:updated_time" content="2019-11-04T12:41:27.193Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ATOSA">
+<meta name="twitter:title" content="论文阅读笔记 why BA？">
+<meta name="twitter:description" content="Visual SLAM：Why Bundle Adjust? Álvaro Parra, Tat-Jun Chin, Anders Eriksson, Ian Reid ICRA 2019  在BA的基础上做了些修改，简单的说，BA把R，t，X放到一起优化，而这篇文章提出的新BA把R和t，X分开优化，先优化R，再在优化得到的R的基础上再优化R，t 传统BA流程图  重投影误差公式： $$\min">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/007y4ewTly1g8m24uam3uj30ed095gmu.jpg">
 
 
 
@@ -115,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/Multiview-Geometry/">
+  <link rel="canonical" href="http://yoursite.com/2019/11/04/论文阅读笔记whyBA/">
 
 
 
 
 
-  <title>标签: Multiview Geometry | ATOSA</title>
+  <title>论文阅读笔记 why BA？ | ATOSA</title>
   
 
 
@@ -140,7 +149,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -256,52 +265,183 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Multiview Geometry<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/04/论文阅读笔记whyBA/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="batmanShu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ATOSA">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/10/27/EpipolarRecitification/" itemprop="url">
-              
-                <span itemprop="name">Epipolar Recitification</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">论文阅读笔记 why BA？</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-10-27T14:55:57+08:00" content="2019-10-27">
-          10-27
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-04T20:25:32+08:00">
+                2019-11-04
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Visual SLAM：Why Bundle Adjust?</p>
+<p><a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Parra%2C+Á" target="_blank" rel="noopener">Álvaro Parra</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Chin%2C+T" target="_blank" rel="noopener">Tat-Jun Chin</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Eriksson%2C+A" target="_blank" rel="noopener">Anders Eriksson</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Reid%2C+I" target="_blank" rel="noopener">Ian Reid</a></p>
+<p>ICRA 2019</p>
+</blockquote>
+<p>在BA的基础上做了些修改，简单的说，BA把R，t，X放到一起优化，而这篇文章提出的新BA把R和t，X分开优化，先优化R，再在优化得到的R的基础上再优化R，t</p>
+<p>传统BA流程图</p>
+<p><img src="http://ww1.sinaimg.cn/large/007y4ewTly1g8m24uam3uj30ed095gmu.jpg" alt="BA.PNG"></p>
+<p>重投影误差公式：<br> $$\min_{{X_j},{(R_j,t_j)}}\sum_{i,j}||u_{i,j}-f(X_j|R_j,t_j)||^2_2$$ </p>
+<p>其中$u_{i,j}$是第$j$个点在第$i$幅图中的投影</p>
+<p>新方法流程图</p>
+<p><img src="http://ww1.sinaimg.cn/large/007y4ewTly1g8m34ghulhj30ec096wfy.jpg" alt="new_BA.PNG"></p>
+<p>在求得相对$R$的情况下，利用rotation averaging计算绝对$R$</p>
+$$\min_{\{R_j\}}\sum_{i,j\in N}||R_{j,k}-R_kR_j^{-1}||^2_F$$
+<p>在已知R的情况下，用优化的方法计算t和X<br>$$\min_{{X_i},{t_j}}\gamma
+\\subject \ to \||A_{i,j}\begin{bmatrix}X_i\\t_j\end{bmatrix}||_2-\gamma b_j^T\begin{bmatrix}X_i\\t_j\end{bmatrix},\forall i,j
+\\ \gamma\geq0$$<br>$$A_{i,j}=[S_{i,j},I_{2\times2}-z_{i,j}],b_j=[R_j^{(3)}, 0, 0, 1]^T,S_{i,j}=R^{(1:2)}_j-z_{i,j}R_j^{(3)}$$<br>这个被称为Known rotation problem（KRot）,同时论文中还给平移向量加上了角度约束<br>$$\angle(t_{j,k},C_k-C_j)\leq\alpha \quad \forall j,k$$<br>$C_k,C_j$是绝对t，$C_j=-R^T_jt_j$，加上这个约束问题被称为krot_tdc,tdc代表translation direction constraints<br>部分实验结果图</p>
+<p><img src="http://ww1.sinaimg.cn/large/007y4ewTly1g8m4v56p0gj30f80nf416.jpg" alt="result.PNG"></p>
+<p>可以看到，新方法比传统BA效果要好，在新方法后再加一层BA可以使误差进一步降低，但会出现几次较为严重的错误情况，可能是因为BA对缓慢移动或纯旋转的鲁棒性不够强，而新方法的鲁棒性较强</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    batmanShu
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2019/11/04/论文阅读笔记whyBA/" title="论文阅读笔记 why BA？">http://yoursite.com/2019/11/04/论文阅读笔记whyBA/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/paper-reading/" rel="tag"># paper reading</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/27/EpipolarRecitification/" rel="next" title="Epipolar Recitification">
+                <i class="fa fa-chevron-left"></i> Epipolar Recitification
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -309,6 +449,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -527,6 +671,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
