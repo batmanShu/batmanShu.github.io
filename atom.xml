@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ATOSA</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2019-11-04T12:41:27.193Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>batmanShu</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>论文阅读笔记 why BA？</title>
+    <link href="http://yoursite.com/2019/11/04/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0whyBA/"/>
+    <id>http://yoursite.com/2019/11/04/论文阅读笔记whyBA/</id>
+    <published>2019-11-04T12:25:32.528Z</published>
+    <updated>2019-11-04T12:41:27.193Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>Visual SLAM：Why Bundle Adjust?</p><p><a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Parra%2C+Á" target="_blank" rel="noopener">Álvaro Parra</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Chin%2C+T" target="_blank" rel="noopener">Tat-Jun Chin</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Eriksson%2C+A" target="_blank" rel="noopener">Anders Eriksson</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Reid%2C+I" target="_blank" rel="noopener">Ian Reid</a></p><p>ICRA 2019</p></blockquote><p>在BA的基础上做了些修改，简单的说，BA把R，t，X放到一起优化，而这篇文章提出的新BA把R和t，X分开优化，先优化R，再在优化得到的R的基础上再优化R，t</p><p>传统BA流程图</p><p><img src="http://ww1.sinaimg.cn/large/007y4ewTly1g8m24uam3uj30ed095gmu.jpg" alt="BA.PNG"></p><p>重投影误差公式：<br> $$\min_{{X_j},{(R_j,t_j)}}\sum_{i,j}||u_{i,j}-f(X_j|R_j,t_j)||^2_2$$ </p><p>其中$u_{i,j}$是第$j$个点在第$i$幅图中的投影</p><p>新方法流程图</p><p><img src="http://ww1.sinaimg.cn/large/007y4ewTly1g8m34ghulhj30ec096wfy.jpg" alt="new_BA.PNG"></p><p>在求得相对$R$的情况下，利用rotation averaging计算绝对$R$</p>$$\min_{\{R_j\}}\sum_{i,j\in N}||R_{j,k}-R_kR_j^{-1}||^2_F$$<p>在已知R的情况下，用优化的方法计算t和X<br>$$\min_{{X_i},{t_j}}\gamma\\subject \ to \||A_{i,j}\begin{bmatrix}X_i\\t_j\end{bmatrix}||_2-\gamma b_j^T\begin{bmatrix}X_i\\t_j\end{bmatrix},\forall i,j\\ \gamma\geq0$$<br>$$A_{i,j}=[S_{i,j},I_{2\times2}-z_{i,j}],b_j=[R_j^{(3)}, 0, 0, 1]^T,S_{i,j}=R^{(1:2)}_j-z_{i,j}R_j^{(3)}$$<br>这个被称为Known rotation problem（KRot）,同时论文中还给平移向量加上了角度约束<br>$$\angle(t_{j,k},C_k-C_j)\leq\alpha \quad \forall j,k$$<br>$C_k,C_j$是绝对t，$C_j=-R^T_jt_j$，加上这个约束问题被称为krot_tdc,tdc代表translation direction constraints<br>部分实验结果图</p><p><img src="http://ww1.sinaimg.cn/large/007y4ewTly1g8m4v56p0gj30f80nf416.jpg" alt="result.PNG"></p><p>可以看到，新方法比传统BA效果要好，在新方法后再加一层BA可以使误差进一步降低，但会出现几次较为严重的错误情况，可能是因为BA对缓慢移动或纯旋转的鲁棒性不够强，而新方法的鲁棒性较强</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;Visual SLAM：Why Bundle Adjust?&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://arxiv.org/search/cs?searchtype=author&amp;amp;query=Parra%2C+Á&quot; target=&quot;_
+      
+    
+    </summary>
+    
+    
+    
+      <category term="paper reading" scheme="http://yoursite.com/tags/paper-reading/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Epipolar Recitification</title>
+    <link href="http://yoursite.com/2019/10/27/EpipolarRecitification/"/>
+    <id>http://yoursite.com/2019/10/27/EpipolarRecitification/</id>
+    <published>2019-10-27T06:55:57.491Z</published>
+    <updated>2019-10-27T14:13:16.342Z</updated>
+    
+    <content type="html"><![CDATA[<p>在进行极线搜索时，为了方便，将极点通过射影变换转至无穷远点，则图上的极线都变成了平行线，便于搜索<br><em>PAT：</em> <strong>只能在极点位于图像外时使用这种方法，极点在图像内时，极点周围的点也会被变换到无穷远处</strong></p><h2 id="变换矩阵H的形式"><a href="#变换矩阵H的形式" class="headerlink" title="变换矩阵H的形式"></a>变换矩阵H的形式</h2><script type="math/tex; mode=display">He=[1,0,0]^T</script><p>$H$最少有6个自由度,为了减少畸变，应该使$H$接近刚体变换,$H=GG_RG_T\in R^{3\times3}$</p><script type="math/tex; mode=display">G_T=\begin{bmatrix}1&0&-O_x\\0&1&-O_y\\0&0&1\\\end{bmatrix}</script><p>其中$O_x,O_y$是图像中心,$G_T\begin{bmatrix}O_x\\O_y\\1\end{bmatrix}=\begin{bmatrix}0\\0\\1\end{bmatrix}$  </p><p>$G_T$将极点变换到图像坐标系下，再通过刚体变换$G_R\in SO(3)$将极点变换到x轴上,$G_R$是以z轴为旋转轴的旋转矩阵</p><script type="math/tex; mode=display">G_RG_Te=[x_e,0,1]^T</script><p>要使$G[x_e,0,1]=[1,0,0]^T$,则$G=\begin{bmatrix}1&amp;0&amp;0\\0&amp;1&amp;0\\ -\frac{1}{x_e}&amp;0&amp;1\end{bmatrix}$</p><h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><blockquote><p>Hartley R, Zisserman A. Multiple view geometry in computer vision[M]. Cambridge university press, 2003.</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在进行极线搜索时，为了方便，将极点通过射影变换转至无穷远点，则图上的极线都变成了平行线，便于搜索&lt;br&gt;&lt;em&gt;PAT：&lt;/em&gt; &lt;strong&gt;只能在极点位于图像外时使用这种方法，极点在图像内时，极点周围的点也会被变换到无穷远处&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=
+      
+    
+    </summary>
+    
+    
+    
+      <category term="Multiview Geometry" scheme="http://yoursite.com/tags/Multiview-Geometry/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://yoursite.com/2019/10/13/hello-world/"/>
+    <id>http://yoursite.com/2019/10/13/hello-world/</id>
+    <published>2019-10-13T11:45:10.154Z</published>
+    <updated>2019-10-13T11:45:10.154Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+</feed>
