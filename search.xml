@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>matlab visison sfm学习笔记</title>
+    <url>/2019/11/10/matlab-visison-sfm%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p>matlab从r2019a版本开始在Computer Vision Toolbox中提供了一套完整的sfm程序，输入标定好的图像序列，可以计算出相机位姿进行稀疏重建和稠密重建</p>
+<p><a href="https://ww2.mathworks.cn/help/vision/examples/structure-from-motion-from-multiple-views.html" target="_blank" rel="noopener">matlab sfm文档链接</a></p>
+<p>matlab sfm基本步骤：</p>
+<ol>
+<li>输入图像，检测图像SURF特征点</li>
+<li>5点法RANSAC计算双视图本质矩阵E</li>
+<li>由E分解出四组R,t，三角化重建三维点，利用正负景深筛选出正确的R,t</li>
+<li>双视图下做BA优化，得到BA修正后的R,t,X</li>
+<li>最后一对视图BA得到的X作为最后稀疏重建结果展示的X</li>
+<li>稠密重建</li>
+</ol>
+<p>输入图片序列</p>
+<p><img src="http://ww1.sinaimg.cn/large/007y4ewTly1g8t57s77trj30rd0llat9.jpg" alt="image.png"></p>
+<p>稀疏重建结果</p>
+<p><img src="http://ww1.sinaimg.cn/large/007y4ewTly1g8t5626zloj30fk0bo74r.jpg" alt="image.png"></p>
+<p>其实程序写的很简单明了，很容易就能看懂，需要注意的是这个程序中投影方程的形式是<br>$x=K(RX-t)$</p>
+<p>$R$和$t$就是最后程序输出的orientation和location</p>
+<p>在RANSAC中用Sampson distance计算误差,判断是否为内点</p>
+<script type="math/tex; mode=display">\sum \frac{x_i'Fx_i}{(Fx_i)_1^2+(Fx_i)_2^2+(F^Tx_i')_1^2+(F^Tx_i')_2^2}</script>]]></content>
+  </entry>
+  <entry>
     <title>论文阅读笔记 why BA？</title>
     <url>/2019/11/04/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0whyBA/</url>
     <content><![CDATA[<blockquote>
