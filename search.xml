@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Sampson Error/Sampson Distance</title>
+    <url>/2019/11/11/Sampson%20Error/</url>
+    <content><![CDATA[<p>Sampson误差是复杂性介于代数误差和几何误差之间，但非常近似于几何误差的一种误差</p>
+<p>先介绍一下<strong>代数误差</strong>，代数误差简单的说就是误差函数值的模，例如$Ah=\epsilon$的代数误差为$||Ah||^2$,其中$\epsilon$为误差向量，代数误差计算简便，但一般没有实际的物理意义，利用代数误差求出来的解可以用来做初值</p>
+<p><strong>几何误差</strong>，在图像中可以看成点和点之间的几何距离，若$\hat x=Hx$,那么几何误差为$d(\hat x,Hx)$,想要使几何误差最小，需要同时估计$x,\hat x,H$,复杂性太高，因此引入了sampson误差（或者说sampson距离）</p>
+<h2 id="sampson-error"><a href="#sampson-error" class="headerlink" title="sampson error"></a>sampson error</h2><p>对于一点$X$,满足$C_H(X)=0$,他的估计点为$\hat X=X+\delta_x,C_H(\hat X)=0$</p>
+<script type="math/tex; mode=display">C_H(X+\delta_X)=C_H(X)+\frac{\partial C_H}{\partial X}\delta_X</script><script type="math/tex; mode=display">C_H(X)+\frac{\partial C_H}{\partial X}\delta_X=0</script><p>记为</p>
+<script type="math/tex; mode=display">J\delta_X=-\epsilon</script><p>因此问题转化为求满足上式条件下使$||\delta_X||$最小的$\delta_X$</p>
+<p>利用拉格朗日乘数法，引入拉格朗日乘子$\lambda$，问题转化为最小化$\delta_X^T\delta_X-\lambda^T(J\delta_X+\epsilon)$<br>不难求得Sampson误差为</p>
+<script type="math/tex; mode=display">||\delta_X||^2=\delta_X^T\delta_X=\epsilon^T(JJ^T)^{-1}\epsilon</script><p>在$x’Fx=0$中，$\frac{\epsilon^t\epsilon}{JJ^t}=\frac{(x’Fx)^2}{JJ^T}$</p>
+<script type="math/tex; mode=display">JJ^T=(Fx_i)_1^2+(Fx_i)_2^2+(F^Tx_i')_1^2+(F^Tx_i')_2^2</script><p>Sampson Distance为</p>
+<script type="math/tex; mode=display">||\epsilon||^2=\frac{(x'Fx)^2}{(Fx_i)_1^2+(Fx_i)_2^2+(F^Tx_i')_1^2+(F^Tx_i')_2^2}</script><h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><blockquote>
+<p>Hartley R, Zisserman A. Multiple view geometry in computer vision[M]. Cambridge university press, 2003.</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>Multiview Geometry</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>matlab visison sfm学习笔记</title>
     <url>/2019/11/10/matlab-visison-sfm%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p>matlab从r2019a版本开始在Computer Vision Toolbox中提供了一套完整的sfm程序，输入标定好的图像序列，可以计算出相机位姿进行稀疏重建和稠密重建</p>
