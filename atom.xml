@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-11-11T14:23:22.954Z</updated>
+  <updated>2020-01-05T06:50:50.154Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,57 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>论文阅读笔记 基于深度图的三维重建算法</title>
+    <link href="http://yoursite.com/2020/01/05/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0-%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%9B%BE%E7%9A%84%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA%E7%AE%97%E6%B3%95/"/>
+    <id>http://yoursite.com/2020/01/05/论文阅读笔记-基于深度图的三维重建算法/</id>
+    <published>2020-01-05T06:45:00.000Z</published>
+    <updated>2020-01-05T06:50:50.154Z</updated>
+    
+    <content type="html"><![CDATA[<p>论文题目：Accurate Multiple View 3D Reconstruction Using<br>Patch-Based Stereo for Large-Scale Scenes</p><p>作者：Shuhan Shen 年份：2013</p><p>这篇文章主要讲了如何利用patch-based的方法为每幅图都生成对应的深度图，然后将多幅深度图融合生成三维点云模型</p><h2 id="基本流程"><a href="#基本流程" class="headerlink" title="基本流程"></a>基本流程</h2><p><img src="http://ww1.sinaimg.cn/large/007y4ewTly1gakdjoij3pj30kf0jtgw0.jpg" alt="image.png"></p><h3 id="1-选择合适的图像对"><a href="#1-选择合适的图像对" class="headerlink" title="1.选择合适的图像对"></a>1.选择合适的图像对</h3><p>为了计算一幅图对应的深度图，应当将它合适的邻近图选取出来。邻近图与待计算的图应该视角相近，而且基线的长度要比较合适，不能太长也不能太短。用$\theta_{ij}$表示相机$i$和相机$j$之间的视角，$d_{ij}$表示两相机之间的光心距离。先筛选出满足$0^\circ&lt;\theta_{ij}&lt;60^\circ$的相机，再在其中筛选出$0.05\bar{d}&lt;d_{ij}&lt;2\bar{d}$,$\bar{d}$表示所有图像两两之间光心距离的中值</p><h3 id="2-计算深度图"><a href="#2-计算深度图" class="headerlink" title="2.计算深度图"></a>2.计算深度图</h3><p>对于一副选择好的视图$I_i$和它的邻近图$I_j$，对于$I_i$上的每一个像素$p$都先初始化一个3D坐标下的support plane，一个support plane可由一个3D点$X_i$和一个法向量$n_i$表示</p><p><img src="http://ww1.sinaimg.cn/large/007y4ewTly1gakjleknlkj30jd0ha0up.jpg" alt="image.png"></p><p>support plane最开始初始化的值</p><script type="math/tex; mode=display">X_i={\lambda}K_i^{-1}p</script><script type="math/tex; mode=display">n_i=[cos\theta sin\phi,sin\theta sin\phi,cos\phi]^T</script><p>$\lambda$表示点在视图$I_i$的景深，取$\lambda\in[\lambda_{min},\lambda_{max}]$中的任意值做初值，之后再优化</p><p>同样的，$\theta\in[0^\circ,360^\circ],\phi\in[0^\circ,60^\circ]$,也取范围内的任意值做初值，这样的设置保证初始化的patch可以被当前相机观测到</p><p>有了初始化好的support plane后，就可以计算这个support plane在两幅视图之间的homography了</p><script type="math/tex; mode=display">H_{ij}=K_j(R_jR_i^{-1}+\frac{R_j(C_i-C_j)n_i^T}{n_i^TX_i})K_i^{-1}</script><p>对于$I_i$上的每一个像素$q$，根据homography计算它在$I_j$上对应的$H_{ij}(q)$,计算$q$与$H_{ij}(q)$之间的NCC score</p><p>初始化之后，利用spatial propagation和random assignment对初值进行优化</p><p>spatial propagation是利用邻近点可能在同一个平面上的原理，将当前点的support plane传递给邻近点，如果NCC值变小了，则传递成功，如果没变小，则传递失败，原值不变。值得注意的是，这里做了两次迭代，第一次迭代从左上角往右下角传，第二次从右下角往左上角传，这样才能保证不会遗漏掉一些初值较好的点</p><p>random assignment是对$\lambda,\theta,\phi$进行随机微调，使NCC变小</p><p>在spatial propagation和random assignment后，我们将NCC值仍然高于某个阈值的点丢弃掉</p><h3 id="3-对深度图进行优化"><a href="#3-对深度图进行优化" class="headerlink" title="3.对深度图进行优化"></a>3.对深度图进行优化</h3><p>对$I_i$中的点$p$，可以根据几幅不同的共视图计算出不同的深度，如果这个深度与之前步骤2中得到的深度接近，那么这个点就可保留，不然就将这个点丢弃</p><h3 id="4-深度图融合"><a href="#4-深度图融合" class="headerlink" title="4.深度图融合"></a>4.深度图融合</h3><p>直接将之前得到的深度图进行融合会产生很多的冗余，如果一个3D点重投影在邻近图的深度比邻近图的深度图中这个点的深度要小，那么认为这个点在邻近图中是被遮挡住的，可以删去，，如果很接近，则认为这个点是重复的，也可删去，详见下图</p><p><img src="http://ww1.sinaimg.cn/large/007y4ewTly1gaklpru1tzj30k00lj78d.jpg" alt="image.png"></p><blockquote><p>Shen S. Accurate multiple view 3d reconstruction using patch-based stereo for large-scale scenes[J]. IEEE transactions on image processing, 2013, 22(5): 1901-1914.</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;论文题目：Accurate Multiple View 3D Reconstruction Using&lt;br&gt;Patch-Based Stereo for Large-Scale Scenes&lt;/p&gt;
+&lt;p&gt;作者：Shuhan Shen 年份：2013&lt;/p&gt;
+&lt;p&gt;这篇文
+      
+    
+    </summary>
+    
+    
+    
+      <category term="paper reading" scheme="http://yoursite.com/tags/paper-reading/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>cheirality</title>
+    <link href="http://yoursite.com/2019/12/08/cheirality/"/>
+    <id>http://yoursite.com/2019/12/08/cheirality/</id>
+    <published>2019-12-08T13:24:27.000Z</published>
+    <updated>2019-12-08T14:47:15.536Z</updated>
+    
+    <content type="html"><![CDATA[<p>cheirality是多视图几何中的一个专有名词，代表了3D点的一种性质</p><p>假设存在一个3D点$X_w$，有一个相机$C$,如果$X_w$在$C$的前面，也就是说该点的景深相对于这个相机是正的，那就说明这个点满足cheirality constraint</p><p>cheirality constraint一般可以用来从本质矩阵$E$的四组分解中筛选出正确的一组$R,t$</p><p>怎么验证一个点满足cheirality constraint：</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;cheirality是多视图几何中的一个专有名词，代表了3D点的一种性质&lt;/p&gt;
+&lt;p&gt;假设存在一个3D点$X_w$，有一个相机$C$,如果$X_w$在$C$的前面，也就是说该点的景深相对于这个相机是正的，那就说明这个点满足cheirality constraint&lt;/p&gt;
+      
+    
+    </summary>
+    
+    
+    
+      <category term="Multiview Geometry" scheme="http://yoursite.com/tags/Multiview-Geometry/"/>
+    
+  </entry>
   
   <entry>
     <title>Sampson Error/Sampson Distance</title>
